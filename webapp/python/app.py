@@ -304,7 +304,7 @@ def get_new_items():
         with conn.cursor() as c:
             if item_id > 0 and created_at > 0:
                 # paging
-                sql = "SELECT items.category_id, items.created_at, items.id, items.image_name, items.name, items.price, items.seller_id, items.status, users.account_name, users.address, users.id, users.num_sell_items, categories.category_name, categories.id, categories.parent_category_name, categories.parent_id FROM `items`  LEFT OUTER JOIN `users` ON `items`.`seller_id` = `users`.`id` LEFT OUTER JOIN `categories` ON `items`.`category_id` = `categories`.`id` WHERE `status` IN (%s, %s) AND (`items.created_at` < %s OR (`items.created_at` <= %s AND `items.id` < %s)) ORDER BY `items`.`created_at` DESC, `items`.`id` DESC LIMIT %s"
+                sql = "SELECT items.category_id, items.created_at, items.id, items.image_name, items.name, items.price, items.seller_id, items.status, users.account_name, users.address, users.id, users.num_sell_items, categories.category_name, categories.id, categories.parent_id FROM `items`  LEFT OUTER JOIN `users` ON `items`.`seller_id` = `users`.`id` LEFT OUTER JOIN `categories` ON `items`.`category_id` = `categories`.`id` WHERE `status` IN (%s, %s) AND (`items.created_at` < %s OR (`items.created_at` <= %s AND `items.id` < %s)) ORDER BY `items`.`created_at` DESC, `items`.`id` DESC LIMIT %s"
                 c.execute(sql, (
                     Constants.ITEM_STATUS_ON_SALE,
                     Constants.ITEM_STATUS_SOLD_OUT,
@@ -315,7 +315,7 @@ def get_new_items():
                 ))
             else:
                 # 1st page
-                sql = "SELECT items.category_id, items.created_at, items.id, items.image_name, items.name, items.price, items.seller_id, items.status, users.account_name, users.address, users.id, users.num_sell_items, categories.category_name, categories.id, categories.parent_category_name, categories.parent_id FROM `items` LEFT OUTER JOIN `users` ON `items`.`seller_id` = `users`.`id` LEFT OUTER JOIN `categories` ON `items`.`category_id` = `categories`.`id` WHERE `status` IN (%s, %s) ORDER BY `items`.`created_at` DESC, `items`.`id` DESC LIMIT %s"
+                sql = "SELECT items.category_id, items.created_at, items.id, items.image_name, items.name, items.price, items.seller_id, items.status, users.account_name, users.address, users.id, users.num_sell_items, categories.category_name, categories.id, categories.parent_id FROM `items` LEFT OUTER JOIN `users` ON `items`.`seller_id` = `users`.`id` LEFT OUTER JOIN `categories` ON `items`.`category_id` = `categories`.`id` WHERE `status` IN (%s, %s) ORDER BY `items`.`created_at` DESC, `items`.`id` DESC LIMIT %s"
                 c.execute(sql, (
                     Constants.ITEM_STATUS_ON_SALE,
                     Constants.ITEM_STATUS_SOLD_OUT,
