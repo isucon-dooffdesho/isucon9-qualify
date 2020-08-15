@@ -317,6 +317,7 @@ def get_new_items():
 
             while True:
                 item = c.fetchone()
+                print(item)
 
                 if item is None:
                     break
