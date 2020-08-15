@@ -317,7 +317,7 @@ def get_new_items():
 
             while True:
                 item = c.fetchone()
-                print(item)
+                app.logger.info(item)
 
                 if item is None:
                     break
@@ -328,7 +328,7 @@ def get_new_items():
                 # item["category"] = category
                 # item["seller"] = to_user_json(seller)
                 # item["image_url"] = get_image_url(item["image_name"])
-                item = to_item_json(item, simple=True)
+                # item = to_item_json(item, simple=True)
 
                 item_simples.append(item)
 
