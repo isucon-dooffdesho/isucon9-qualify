@@ -295,7 +295,7 @@ def get_new_items():
         with conn.cursor() as c:
             if item_id > 0 and created_at > 0:
                 # paging
-                sql = "SELECT * FROM `items` WHERE `status` IN (%s,%s) AND (`created_at` < %s OR (`created_at` <= %s AND `id` < %s)) ORDER BY `created_at` DESC, `id` DESC LIMIT %s"
+                sql = "SELECT * FROM `items` JOIN `users` ON `items`.`seller_id` = `users`.`id` JOIN `categories` ON `items`.`category_id` = `categories`.`id` WHERE `status` IN (%s, %s) AND (`items.created_at` < %s OR (`items.created_at` <= %s AND `items.id` < %s)) ORDER BY `items`.`created_at` DESC, `items`.`id` DESC LIMIT %s"
                 c.execute(sql, (
                     Constants.ITEM_STATUS_ON_SALE,
                     Constants.ITEM_STATUS_SOLD_OUT,
@@ -306,7 +306,7 @@ def get_new_items():
                 ))
             else:
                 # 1st page
-                sql = "SELECT * FROM `items` WHERE `status` IN (%s,%s) ORDER BY `created_at` DESC, `id` DESC LIMIT %s"
+                sql = "SELECT * FROM `items` JOIN `users` ON `items`.`seller_id` = `users`.`id` JOIN `categories` ON `items`.`category_id` = `categories`.`id` WHERE `status` IN (%s, %s) ORDER BY `items`.`created_at` DESC, `items`.`id` DESC LIMIT %s"
                 c.execute(sql, (
                     Constants.ITEM_STATUS_ON_SALE,
                     Constants.ITEM_STATUS_SOLD_OUT,
@@ -321,12 +321,12 @@ def get_new_items():
                 if item is None:
                     break
 
-                seller = get_user_simple_by_id(item["seller_id"])
-                category = get_category_by_id(item["category_id"])
+                # seller = get_user_simple_by_id(item["seller_id"])
+                # category = get_category_by_id(item["category_id"])
 
-                item["category"] = category
-                item["seller"] = to_user_json(seller)
-                item["image_url"] = get_image_url(item["image_name"])
+                # item["category"] = category
+                # item["seller"] = to_user_json(seller)
+                # item["image_url"] = get_image_url(item["image_name"])
                 item = to_item_json(item, simple=True)
 
                 item_simples.append(item)
