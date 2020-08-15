@@ -48,6 +48,15 @@ class Constants(object):
     ITEMS_PER_PAGE = 48
     TRANSACTIONS_PER_PAGE = 10
 
+parent_category_name_dict = {
+  1: "ソファー",
+  10: "家庭用チェア",
+  20: "キッズチェア",
+  30: "オフィスチェア",
+  40: "折りたたみ椅子",
+  50: "ベンチ",
+  60: "座椅子"
+}
 
 class HttpException(Exception):
     status_code = 500
@@ -317,20 +326,41 @@ def get_new_items():
 
             while True:
                 item = c.fetchone()
-                app.logger.info(item)
 
                 if item is None:
                     break
+
+                item_res = {
+                    category: {
+                        category_name: item["category_name"],
+                        id: item["category.id"],
+                        parent_category_name: parent_category_name_dict[item["parent_id"]],
+                        parent_id: item["parent_id"]
+                    },
+                    category_id: item["category_id"],
+                    created_at: item["created_at"],
+                    id: item["id"],
+                    name: item["name"],
+                    price: item["price"],
+                    seller_id: item["seller_id"],
+                    status: item["status"],
+                    image_url: get_image_url(item["image_name"]),
+                    seller: {
+                        account_name: item["account_name"],
+                        address: item["address"],
+                        id: item["user.id"],
+                        num_sell_items: item["num_sell_items"]
+                    }
+                }
 
                 # seller = get_user_simple_by_id(item["seller_id"])
                 # category = get_category_by_id(item["category_id"])
 
                 # item["category"] = category
                 # item["seller"] = to_user_json(seller)
-                # item["image_url"] = get_image_url(item["image_name"])
                 # item = to_item_json(item, simple=True)
 
-                item_simples.append(item)
+                item_simples.append(item_res)
 
             has_next = False
             if len(item_simples) > Constants.ITEMS_PER_PAGE:
@@ -394,7 +424,6 @@ def get_new_category_items(root_category_id=None):
                     Constants.ITEMS_PER_PAGE + 1,
                 ))
             else:
-
                 sql = "SELECT * FROM `items` WHERE `status` IN (%s,%s) AND category_id IN ("+ ",".join(["%s"]*len(category_ids))+ ") ORDER BY created_at DESC, id DESC LIMIT %s"
                 c.execute(sql, (
                     Constants.ITEM_STATUS_ON_SALE,
