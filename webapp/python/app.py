@@ -331,25 +331,25 @@ def get_new_items():
                     break
 
                 item_res = {
-                    category: {
-                        category_name: item["category_name"],
-                        id: item["category.id"],
-                        parent_category_name: parent_category_name_dict[item["parent_id"]],
-                        parent_id: item["parent_id"]
+                    "category": {
+                        "category_name": item["category_name"],
+                        "id": item["category.id"],
+                        "parent_category_name": parent_category_name_dict[item["parent_id"]],
+                        "parent_id": item["parent_id"]
                     },
-                    category_id: item["category_id"],
-                    created_at: item["created_at"],
-                    id: item["id"],
-                    name: item["name"],
-                    price: item["price"],
-                    seller_id: item["seller_id"],
-                    status: item["status"],
-                    image_url: get_image_url(item["image_name"]),
-                    seller: {
-                        account_name: item["account_name"],
-                        address: item["address"],
-                        id: item["user.id"],
-                        num_sell_items: item["num_sell_items"]
+                    "category_id": item["category_id"],
+                    "created_at": item["created_at"],
+                    "id": item["id"],
+                    "name": item["name"],
+                    "price": item["price"],
+                    "seller_id": item["seller_id"],
+                    "status": item["status"],
+                    "image_url": get_image_url(item["image_name"]),
+                    "seller": {
+                        "account_name": item["account_name"],
+                        "address": item["address"],
+                        "id": item["user.id"],
+                        "num_sell_items": item["num_sell_items"]
                     }
                 }
 
