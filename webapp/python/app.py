@@ -333,12 +333,12 @@ def get_new_items():
                 item_res = {
                     "category": {
                         "category_name": item["category_name"],
-                        "id": item["category.id"],
+                        "id": item["categories.id"],
                         "parent_category_name": parent_category_name_dict[item["parent_id"]],
                         "parent_id": item["parent_id"]
                     },
                     "category_id": item["category_id"],
-                    "created_at": item["created_at"],
+                    "created_at": int(item["created_at"].timestamp()),
                     "id": item["id"],
                     "name": item["name"],
                     "price": item["price"],
@@ -348,7 +348,7 @@ def get_new_items():
                     "seller": {
                         "account_name": item["account_name"],
                         "address": item["address"],
-                        "id": item["user.id"],
+                        "id": item["users.id"],
                         "num_sell_items": item["num_sell_items"]
                     }
                 }
